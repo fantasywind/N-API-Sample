@@ -1,14 +1,14 @@
-const fibonacci = require('./build/Release/fibonacci');
-const size = 90;
+const math = require('./build/Release/math');
+const size = 93;
 
 console.time('[c] Fibonacci');
-const result = fibonacci.calculate(size);
+const result = math.fibonacci(size);
 console.timeEnd('[c] Fibonacci');
 
 console.time('[js] Fibonacci');
-let nowNum = 0;
-let lastNum = 1;
-let lastLastNum = 0;
+let nowNum = BigInt(0);
+let lastNum = BigInt(1);
+let lastLastNum = BigInt(0);
 
 for (let i = 1; i < size; i += 1) {
   nowNum = lastNum + lastLastNum;
@@ -24,7 +24,7 @@ console.log(nowNum);
 const sumTimes = 130000000;
 
 console.time('[c] Sum');
-const sumResult = fibonacci.sum(sumTimes);
+const sumResult = math.sum(sumTimes);
 console.timeEnd('[c] Sum');
 
 console.time('[js] Sum');

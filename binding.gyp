@@ -1,6 +1,6 @@
 {
     "targets": [{
-        "target_name": "fibonacci",
-        "sources": [ "./fibonacci.cc" ]
+        "target_name": "math",
+        "sources": [ "./math.cc" ]
     }]
 }

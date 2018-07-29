@@ -1,3 +1,4 @@
+#define NAPI_EXPERIMENTAL
 #include <node_api.h>
 
 napi_value Sum (napi_env env, napi_callback_info info) {
@@ -39,9 +40,9 @@ napi_value Fibonacci (napi_env env, napi_callback_info info) {
   size_t argc = 1;
   napi_value argv[1];
   int times = 0;
-  unsigned long long int nowNum = 0;
-  unsigned long long int lastNum = 1;
-  unsigned long long int lastLastNum = 0;
+  uint64_t nowNum = 0;
+  uint64_t lastNum = 1;
+  uint64_t lastLastNum = 0;
 
   status = napi_get_cb_info(env, info, &argc, argv, nullptr, nullptr);
 
@@ -63,7 +64,7 @@ napi_value Fibonacci (napi_env env, napi_callback_info info) {
     lastNum = nowNum;
   }
 
-  status = napi_create_int64(env, nowNum, &result);
+  status = napi_create_bigint_uint64(env, nowNum, &result);
 
   if (status != napi_ok) {
     napi_throw_error(env, NULL, "Unable to create return value");
@@ -75,10 +76,10 @@ napi_value Fibonacci (napi_env env, napi_callback_info info) {
 napi_value Init (napi_env env, napi_value exports) {
   napi_status status;
   napi_property_descriptor desc[] = {
-    {"calculate", NULL, Fibonacci, NULL, NULL, NULL, napi_default, NULL},
+    {"fibonacci", NULL, Fibonacci, NULL, NULL, NULL, napi_default, NULL},
     {"sum", NULL, Sum, NULL, NULL, NULL, napi_default, NULL}
   };
-  status = napi_define_properties(env, exports, 2, desc);
+  status = napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
 
   if (status != napi_ok) {
     napi_throw_error(env, NULL, "Unable to wrap native function");
@@ -87,4 +88,4 @@ napi_value Init (napi_env env, napi_value exports) {
   return exports;
 }
 
-NAPI_MODULE(fibonacci, Init);
+NAPI_MODULE(math, Init);
